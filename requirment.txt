@@ -1,0 +1,80 @@
+tls
+
+sudo snap install --classic certbot
+
+certbot certonly --manual --preffered-challenges-dns --key-type rsa --email rakshithgt222@gmail.com \
+--server https://acme-v02.api.letsencrypt.org/directory --agree-tos -d *.gan2.xyz
+
+Ingress Controllers
+
+Steps to Follow:
+
+Generate SSL Keys
+
+Navigate to the /tmp directory:
+cd /tmp
+Create the key files tls.key and tls.crt:
+echo "<Your-Private-Key>" > tls.key
+echo "<Your-Certificate>" > tls.crt
+Deploy Ingress Controllers
+
+Create a secret for the SSL keys:
+kubectl create secret tls nginx-tls-default --key="tls.key" --cert="tls.crt"
+Verify the secret:
+kubectl describe secret nginx-tls-default
+List all secrets:
+kubectl get secrets
+Download Voting Images from Docker and Create a Private Container Registry on AWS
+
+Attach an IAM role to your instance with necessary permissions.
+Tag and push the images to your private registry. After pushing, remove all local images:
+docker rmi $(docker images -aq) --force
+Deploy the Deployment
+
+Provide all the image details in the YAML manifest and deploy the deployment.
+Expect an error due to missing secrets.
+Create Secrets
+
+Delete the deployment:
+kubectl delete deployment <your-deployment-name>
+Create the necessary secrets:
+kubectl create secret docker-registry docker-pwd --docker-username=<your-username> --docker-password=<your-password> --docker-email=<your-email>
+Update YAML Manifest
+
+Add imagePullSecrets under the images section in your YAML manifest:
+imagePullSecrets:
+  - name: docker-pwd
+Configure Route 53
+
+Go to Route 53 and create the following records:
+www
+vote
+result
+Deploy Ingress
+
+Deploy Ingress for the result and vote separately.
+Commands Used:
+# Navigate to /tmp directory
+cd /tmp
+
+# Create SSL key files
+echo "<Your-Private-Key>" > tls.key
+echo "<Your-Certificate>" > tls.crt
+
+# Create secret for SSL keys
+kubectl create secret tls nginx-tls-default --key="tls.key" --cert="tls.crt"
+
+# Verify the secret
+kubectl describe secret nginx-tls-default
+
+# List all secrets
+kubectl get secrets
+
+# Tag and push Docker images, then remove local images
+docker rmi $(docker images -aq) --force
+
+# Delete the existing deployment
+kubectl delete deployment <your-deployment-name>
+
+# Create Docker registry secret
+kubectl create secret docker-registry docker-pwd --docker-username=<your-username> --docker-password=<your-password> --docker-email=<your-email>
