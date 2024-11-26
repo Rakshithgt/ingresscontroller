@@ -76,5 +76,7 @@ docker rmi $(docker images -aq) --force
 # Delete the existing deployment
 kubectl delete deployment <your-deployment-name>
 
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.1/deploy/static/provider/aws/deploy.yaml
+
 # Create Docker registry secret
 kubectl create secret docker-registry docker-pwd --docker-username=<your-username> --docker-password=<your-password> --docker-email=<your-email>
