@@ -4,17 +4,16 @@ metadata:
   name: result-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    spec.ingressClassName: nginx
-#  changed - as it is depracted "kubernetes.io/ingress.class"
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
-    - "result.cloudvishwakarma.in"
+    - "result.gan2.xyz"
     secretName: nginx-tls-default
   rules:
-  - host: result.cloudvishwakarma.in
+  - host: result.gan2.xyz
     http:
-      paths:
+      paths: 
       - path: /
         pathType: Prefix
         backend:
@@ -22,6 +21,7 @@ spec:
             name: result
             port:
               number: 80
+
 
 ---
 
@@ -31,15 +31,15 @@ metadata:
   name: vote-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    spec.ingressClassName: nginx
 spec:
+  ingressClassName: nginx
   tls:
   - hosts:
-    - "vote.cloudvishwakarma.in"
-    - "www.cloudvishwakarma.in"
+    - "vote.gan2.xyz"
+    - "www.gan2.xyz"
     secretName: nginx-tls-default
   rules:
-  - host: vote.cloudvishwakarma.in
+  - host: vote.gan2.xyz
     http:
       paths:
       - path: /
@@ -49,8 +49,8 @@ spec:
             name: vote
             port:
               number: 80
-  - host: www.cloudvishwakarma.in
-    http: 
+  - host: www.gan2.xyz
+    http:
       paths:
       - path: /
         pathType: Prefix
